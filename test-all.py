@@ -42,7 +42,7 @@ for level in levels:
         workload = workloads[level - 1]
         if t == 'z':
             workload /= 2
-        cmd = './bin/%s -R all -N %d %d 1' % (binary, workload, workload)
+        cmd = 'taskset 0x1 ./bin/%s -R all -N %d %d 1' % (binary, workload, workload)
         if level <= 2:
             cmd += ' -X %d %s' % (runs, ' '.join(['1'] * runs))
         else:
