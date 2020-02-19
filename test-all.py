@@ -59,14 +59,15 @@ for level in levels:
         duration = (end - start).total_seconds()
         print('Took: %.2f s' % duration)
         data = parse(r)
-        results[(t, level)] = data
+        results[(t, level)] = [data, workload]
 
 with open('openblas.csv', 'w+') as f:
-    f.write('type;benchmark;mflops\n')
+    f.write('type;benchmark;N;mflops\n')
     for level in levels:
         for t in types:
             data = results[(t, level)]
-            for d in data:
+            workload = data[1]
+            for d in data[0]:
                 key = d[0]
                 values = d[1]
-                f.write('%s%d;%s;%.2f\n' % (t.upper(), level, key, average(values)))
+                f.write('%s%d;%s;%d;%.2f\n' % (t.upper(), level, key, workload, average(values)))
